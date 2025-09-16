@@ -179,6 +179,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'title' => '懸命',
+        'content' => '本文',
+    ],
 
 ];
