@@ -38,9 +38,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            /*
             'ziggy' => function () {
                 return (new Ziggy)->toArray();
             },
+            */
+            'ziggy' => fn () => (new \Tightenco\Ziggy\Ziggy)->toArray(),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
             ],
