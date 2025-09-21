@@ -180,8 +180,11 @@ return [
     */
 
     'attributes' => [
-        'title' => '懸命',
+        'title' => '件名',
         'content' => '本文',
+        'name' => '名',
+        'memo' => 'メモ',
+        'price' => '商品価格',
     ],
 
 ];

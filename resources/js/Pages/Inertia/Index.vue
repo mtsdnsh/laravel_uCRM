@@ -10,7 +10,7 @@ const newContent = ref('');
 </script>
 
 <template>
-    <div v-if="$page.props.flash.message" style="color: blue;">{{ $page.props.flash.message }}</div>
+    <div v-if="$page.props.flash && $page.props.flash.message" style="color: blue;">{{ $page.props.flash.message }}</div>
     <ul>
         <li v-for="blog in blogs" :key="blog.id">
             <h2><Link :href="route('inertia.show', { id: blog.id })">件名：{{ blog.title }}</Link></h2>
