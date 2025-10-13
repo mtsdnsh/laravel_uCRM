@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 import { reactive, onMounted } from 'vue';
 import { getToday } from '@/common';
 import Chart from '@/Components/Chart.vue'
+import ResultTable from '@/Components/ResultTable.vue';
 
 const form = reactive({ type: 'perDay' }) // 仮で直入力
 
@@ -26,6 +27,7 @@ const getData = async () => {
         data.data = res.data.data
         data.labels = res.data.labels
         data.totals = res.data.totals
+        data.type = res.data.type
         console.log(data)
         })
     } catch (e){
@@ -49,6 +51,12 @@ const getData = async () => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <form @submit.prevent="getData">
+                            分析方法<br>
+                            <input type="radio" v-model="form.type" value="perDay" checked><span class="mr-4">日別</span>
+                            <input type="radio" v-model="form.type" value="perMonth"><span class="mr-4">月別</span>
+                            <input type="radio" v-model="form.type" value="perYear"><span class="mr-4">年別</span>
+                            <input type="radio" v-model="form.type" value="decile">デシル分析
+                            <br>
                             From: <input type="date" name="startDate" v-model="form.startDate" />
                             To: <input type="date" name="endDate" v-model="form.endDate" />
                             <div class="mt-4 w-full">
@@ -70,7 +78,10 @@ const getData = async () => {
                         </tr>
                         </tbody>
                     </table>
-                    <Chart :data="data" />
+                    <div v-show="data.data">
+                        <Chart :data="data" />
+                        <ResultTable :data="data" />
+                    </div>
                     </div>
                     </div>
                 </div>

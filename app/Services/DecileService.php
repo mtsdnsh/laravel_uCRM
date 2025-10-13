@@ -1,27 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Order;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+namespace App\Services;
 use Illuminate\Support\Facades\DB;
 
+class DecileService{
 
-class AnalysisController extends Controller
-{
-    public function index()
+    public static function decile($subQuery)
     {
-        return Inertia::render('Analysis');
-    }
-
-    public function decile()
-    {
-        $startDate = '2022-08-01';
-        $endDate = '2022-08-10';
         // 1. 購買ID毎にまとめる
-        $subQuery = Order::betweenDate($startDate, $endDate)
-            ->groupBy('id')
+        $subQuery = $subQuery->groupBy('id')
             ->selectRaw('id, customer_id, customer_name, SUM(subtotal) as totalPerPurchase');
 
         // 2. 会員毎にまとめて購入金額順にソートする
@@ -94,7 +81,11 @@ class AnalysisController extends Controller
             round(100 * totalPerGroup / @total, 1) as totalRatio
             ')->get();
 
-        return Inertia::render('Analysis');
-
+        return
+        [
+            $data,
+            $data->pluck('decile'),
+            $data->pluck('totalPerGroup')
+        ];
     }
 }
